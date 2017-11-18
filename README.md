@@ -34,17 +34,21 @@ Deploy:
 
 ### Setting up API Gateway
 
-Should be similar to [this](https://github.com/nficano/python-lambda/blob/master/README.rst#wiring-to-an-api-endpoint) and also done automatically.
+1. Log in to AWS Managment Console and locate the Lambda called bot
+2. Go to "Triggers" tab and greate a new trigger from API gateway
+3. Click on a trigger name to go to the API Gateway page. Go to Dashboard tab.
+4. The API URL is on top of the page. The particular method invoking your Lambda should be called `bot`, so the full Lambda URL should like `https://c342fwesp0.execute-api.eu-west-2.amazonaws.com/prod/bot`
 
-### Setting up webhooks
+You can try querying the Lambda URL with a test event from the boilerplate:
 
-Should be done automatically as well.
+```bash
+curl -vX POST https://your-lambda-url.amazonaws.com/prod/bot -d @event.json —header "Content-Type:application/json"
+```
+### Setting up a webhook
 
-### 
+Now you just need to give your Lambda API link to Telegram to use it when your bot receives new messages. You can do this simply by [requesting a URL](https://core.telegram.org/bots/api#setwebhook):
 
-
-
-
-
-
+```bash
+curl --request GET --url https://api.telegram.org/bot<TELEGRAM_TOKEN>/setWebhook?url=https://your-lambda-url.amazonaws.com/prod/bot
+```
 
